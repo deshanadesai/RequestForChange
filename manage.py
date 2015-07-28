@@ -1,10 +1,16 @@
 #import requests
-from flask import Flask, render_template, request, session, url_for
+from flask import Flask, render_template, request, session, url_for, redirect, jsonify
+
 import loginmod
+from flask.ext.sqlalchemy import SQLAlchemy
 
 app = Flask(__name__)
+app.config['SQLALCHEMY_DATABASE_URI'] = 'postgresql://root:root@localhost/rooter'
+db = SQLAlchemy(app)
 
-
+@app.route('/heartbeat')
+def heartbeat():
+	return jsonify(requestforchange = True)
 
 @app.route("/")
 def hello():
@@ -19,8 +25,8 @@ def login():
 		password = request.form['password']
 		print webmailid," ",password
 		string = loginmod.makerequest(webmailid,password)
-		if string == "True":
-			return render_template('change.html')
+		if string == True:
+			return redirect(url_for(change))
 		else:
 			return render_template('index.html')
 	else:
@@ -29,9 +35,9 @@ def login():
 @app.route("/change", methods=['GET', 'POST'])
 def change():
 	if request.method == 'POST':
-		print "Hurray!"
+		return "POST"
 	else:
-		print "Bugger!"
+		return render_template('change.html')
 
 if __name__ == "__main__":
     app.run(debug = True)
