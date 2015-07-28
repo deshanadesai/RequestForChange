@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="">
+    <meta name="author" content="">
+
+    <title>Bring Change</title>
+
+    <!-- Bootstrap Core CSS -->
+    <link href="{{ url_for('static', filename = 'css/bootstrap.min.css') }}" rel="stylesheet">
+
+    <!-- Custom CSS -->
+    <style>
+    body {
+        padding-top: 70px;
+        /* Required padding for .navbar-fixed-top. Remove if using .navbar-static-top. Change if height of navigation changes. */
+    }
+    </style>
+
+    
+</head>
+
+<body>
+
+<div class="col-sm-offset-7 col-sm-3 col-md-offset-7 col-md-3 col-lg-offset-7 col-lg-3 pull-right">
+        <form class="navbar-form" role="search">
+          <div class="input-group">
+            <input type="text" class="form-control" placeholder="Search" name="srch-term" id="srch-term">
+            <div class="input-group-btn">
+              <button class="btn btn-default" type="submit"><span class="glyphicon glyphicon-search"></span></button>
+            </div>
+     </div>
+    </form>
+</div>
+<div class="col-sm-offset-7 col-sm-3 col-md-offset-7 col-md-3 col-lg-offset-7 col-lg-3 pull-right">
+            <button type="button" class="btn btn-primary">Request for change<span class="glyphicon glyphicon-pencil"></span></button></div>     </div>
+    
+</div>
+
+{% for post in posts %}
+    <div class="row">
+        <div class="col-sm-offset-3 col-sm-6 col-md-offset-3 col-md-offset-6">
+      <font color=#551a8b size = 5>{{ post.title }}</font> <br>
+<!--      {% if post.subtitle %}
+        <h4>{{ post.subtitle }}</h4>
+      {% endif %}-->
+      <font size = 3><b> Subjected To : </b>
+        {{ post.tags }}    
+    <br>
+      <b> Post Description: </b>{{ post.content|truncate(100) }}</font><br><br>
+      <p><b>
+        <font size = 2>{{ post.date.strftime('%Y-%m-%d') }} | {{supporters|length}} Supporters | {{ post.comments_no}} comments | save</font>
+
+      </p><br></b>
+    </div>
+    {% endfor %}
+    </div>
+    <!-- /.container -->
+
+<br><br><br><br><br><br><br>
+
+    <!-- jQuery Version 1.11.1 -->
+    <script src="{{ url_for('static', filename='js/jquery.js') }}"></script>
+
+    <!-- Bootstrap Core JavaScript -->
+    <script src="{{ url_for('static', filename='js/bootstrap.min.js') }}"></script>
+
+</body>
+
+</html>

@@ -46,6 +46,13 @@
     <!-- /.container -->
 
     <form role="form" action = "login" method = "POST" name="loginform">
+    <div class = "form-group">
+       <div class = "col-sm-offset-5 col-sm-2">
+        {% if error %}
+            <p class="text-danger"><strong>Error:</strong> {{ error }}</p>
+        {% endif %}
+        </div>
+       </div>
         <div class="form-group">
             <div class = "col-sm-offset-5 col-sm-2">
             <input type="text" name = "webmailid" class="form-control" id="webmailid" placeholder = "Webmail ID">
