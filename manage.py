@@ -1,10 +1,11 @@
 #import requests
-from flask import Flask, render_template, request, session, url_for, redirect, jsonify
+from flask import Flask, render_template, request, session, url_for, redirect, jsonify, flash
 
 import loginmod
 from flask.ext.sqlalchemy import SQLAlchemy
 
 app = Flask(__name__)
+app.secret_key = 'Desh$&Rish'
 app.config['SQLALCHEMY_DATABASE_URI'] = 'postgresql://root:root@localhost/rooter'
 db = SQLAlchemy(app)
 
@@ -25,12 +26,16 @@ def login():
 		password = request.form['password']
 		print webmailid," ",password
 		string = loginmod.makerequest(webmailid,password)
-		if string == True:
-			return redirect(url_for(change))
+		if string == "True":
+			#flash('You successfully logged in')
+
+			return redirect(url_for('change'))
+			
 		else:
-			return render_template('index.html')
+			error = 'Invalid Credentials'
+			return render_template('index.html', error = error)
 	else:
-		return render_template('index.html')
+		return render_template('index.html', error = error)
 
 @app.route("/change", methods=['GET', 'POST'])
 def change():
@@ -38,6 +43,11 @@ def change():
 		return "POST"
 	else:
 		return render_template('change.html')
+
+@app.route('/requests')
+def requests():
+	#requests = Request.query.all()
+	return render_template('requests.html', requests = requests)
 
 if __name__ == "__main__":
     app.run(debug = True)
