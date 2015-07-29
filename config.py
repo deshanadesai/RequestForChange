@@ -30,11 +30,28 @@ def heartbeat():
 def hello():
     return render_template('index.html')
 
+@app.route("/addcomment", methods=['GET','POST'])
+def addcomment():
+    if request.method == 'POST':
+        postid = request.form['postid']
+        post = Requests.query.filter(Requests.id == postid).first()
+        userid = current_user.id
+        date = datetime.datetime.now().strftime("%I:%M%p on %B %d, %Y")
+        content = request.form['content']
+        comment = Comments(date,userid,postid,content)
+        db.session.add(comment)
+        db.session.commit()
+        return redirect(url_for("showpost",postid = postid))
+    else:
+        return redirect(url_for("show_reqs"))
 
 @app.route("/showpost/<postid>")
 def showpost(postid):
     post = Requests.query.filter(Requests.id == postid).first()
-    return render_template('showpost.html',post=post)
+    comments = Comments.query.filter(Comments.request_id == post.id)
+    for c in comments:
+        print c.id," :digjdi"
+    return render_template('showpost.html',post=post,comments = comments)
 
 @app.route("/showtag/<tagid>")
 def showtag(tagid):
@@ -46,9 +63,11 @@ def show_reqs():
     requests = Requests.query.all()
     return render_template("requests.html", posts = requests)
 
-@app.route("/showpost")
-def show_post(title):
-    return render_template("index.html")
+@app.route("/showpost/<postid>")
+def show_post(postid):
+    post = Requests.query.filter(Requests.id == postid).first()
+    comments = Comments.query.filter(Comments.request_id == post.id)
+    return render_template("showpost.html",post = post, comments = comments)
 
 @app.route("/login", methods=['GET', 'POST'])
 def login():
@@ -119,7 +138,7 @@ def change():
 
         #request = Request(owner, title, subtitle, content, supporters, status, approved, tags, priority, date, comments_no)
         #DESHANA! the constructor: replace the first 1 with the owners ID, the second with his ID again.
-        newrequest = Requests("1", title, subtitle, content, "1", status, False, tags, priority, date, comments_no)
+        newrequest = Requests(current_user.id, title, subtitle, content, current_user.id, status, False, tags, priority, date, comments_no)
         db.session.add(newrequest)
         db.session.commit()
         print "Adding to the "
@@ -239,6 +258,12 @@ class Comments(db.Model):
     user_id = db.Column(db.Integer, db.ForeignKey('users.id'))
     request_id = db.Column(db.Integer, db.ForeignKey('requests.id'))
     content = db.Column(db.Text)
+
+    def __init__(self,date,user_id,request_id,content):
+        self.date = date
+        self.user_id = user_id
+        self.request_id = request_id
+        self.content = content
 
 if __name__ == "__main__":
     #db.app = app
