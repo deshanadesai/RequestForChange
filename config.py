@@ -4,7 +4,7 @@ sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), '..')))
 from flask.ext.script import Manager, Server
 from requestforchange import app, login_manager, db
 
-from flask import Flask, render_template, request, url_for, redirect
+from flask import Flask, render_template, request, url_for, redirect, jsonify, flash
 from flask.ext.sqlalchemy import SQLAlchemy
 from sqlalchemy.orm import *
 from sqlalchemy import *
@@ -28,13 +28,22 @@ def heartbeat():
 
 @app.route("/")
 def hello():
-    print "rghjfg"
     return render_template('index.html')
+
+
+@app.route("/showpost/<postid>")
+def showpost(postid):
+    post = Requests.query.filter(Requests.id == postid).first()
+    return render_template('showpost.html',post=post)
+
+@app.route("/showtag/<tagid>")
+def showtag(tagid):
+    posts = Requests.query.filter(Requests.tags == tagid)
+    return render_template('requests.html',posts = posts)
 
 @app.route("/show")
 def show_reqs():
     requests = Requests.query.all()
-    comments_no = []
     return render_template("requests.html", posts = requests)
 
 @app.route("/showpost")
@@ -66,7 +75,9 @@ def login():
             if user.active:
                 print "User is active"
                 if login_user(user):
+                    login_user(user)
                     print "User logged in"
+                    print current_user.id
                     return redirect(url_for('change'))
                 else:
                     return render_template('index.html',error = "Could not login. System error. We apologize for the inconvenience")
@@ -77,6 +88,7 @@ def login():
         return render_template('index.html', error = error)
 
 @app.route("/change", methods=['GET', 'POST'])
+@login_required
 def change():
     if request.method == 'POST':
         
@@ -103,17 +115,18 @@ def change():
             priority = 3
         #priority = request.form['priority']
         date = datetime.datetime.now().strftime("%I:%M%p on %B %d, %Y")
+        comments_no = 0
 
-        #request = Request(owner, title, subtitle, content, supporters, status, approved, tags, priority, date)
+        #request = Request(owner, title, subtitle, content, supporters, status, approved, tags, priority, date, comments_no)
         #DESHANA! the constructor: replace the first 1 with the owners ID, the second with his ID again.
-        newrequest = Requests("1", title, subtitle, content, "1", status, False, tags, priority, date)
+        newrequest = Requests("1", title, subtitle, content, "1", status, False, tags, priority, date, comments_no)
         db.session.add(newrequest)
         db.session.commit()
         print "Adding to the "
-        return "POSTED"
-        #return redirect(url_for('requests.html'))
+        #return "POSTED"
+        return redirect('/show')
         
-    else :
+    else:
         return render_template('change.html')
 
 @app.route('/show/<which>')
@@ -133,7 +146,10 @@ def show(which):
 
 @login_manager.user_loader
 def load_user(userid):
-    return User.query.filter(User.id == userid)
+    print "User loader function"
+    print userid
+    user = User.query.filter(User.id == userid).first()
+    return user
 
 
 @app.route("/logout")
@@ -145,9 +161,9 @@ def logout():
         '''
     logout_user()
     flash("Logged out.")
-    return redirect(url_for('/'))
+    return render_template("index.html")
 
-class User(db.Model):
+class User(db.Model, UserMixin):
     __tablename__ = 'users'
     id = db.Column(db.Integer, autoincrement = True, primary_key = True)
     webmailid = db.Column(db.String(63))
@@ -165,9 +181,9 @@ class User(db.Model):
         except AttributeError:
             raise NotImplementedError('No id attribute - override get_id')
 
-    def get_by_id(self, webmailid):
+    def get_by_id(self, id):
         try:
-            dbUser = User.query.filter(User.id == id)
+            dbUser = User.query.filter(User.id == id).first()
             return dbUser
         except Exception, e:
             print str(e)

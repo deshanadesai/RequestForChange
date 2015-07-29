@@ -20,6 +20,16 @@ def heartbeat():
 def hello():
     return render_template('index.html')
 
+@app.route("/showpost/<postid>")
+def showpost(postid):
+	post = Requests.query.filter(Requests.id == postid).first()
+	return render_template('showpost.html',post=post)
+
+@app.route("/showtag/<tagid>")
+def showtag(tagid):
+	posts = Requests.query.filter(Requests.tags = tagid)
+	return render_template('requests.html',posts = posts)
+
 @app.route("/login", methods=['GET', 'POST'])
 def login():
 	print request.form['password']
