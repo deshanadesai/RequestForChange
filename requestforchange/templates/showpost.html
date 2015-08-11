@@ -9,7 +9,7 @@
     <meta name="description" content="">
     <meta name="author" content="">
 
-    <title>Change {{post.title}}</title>
+    <title>Change: {{post.title}}</title>
 
     <!-- Bootstrap Core CSS -->
     <link href="{{ url_for('static', filename = 'css/bootstrap.min.css') }}" rel="stylesheet">
@@ -22,6 +22,7 @@
         }
     </style>
 
+  <button type="button" class="btn btn-primary" onclick="window.location.href='/show';"><span class="glyphicon glyphicon-home"/>  Home</button>
 </head>
 
 <body>
@@ -57,7 +58,7 @@
                     <h4>Leave a Comment:</h4>
                     <form role="form" method = "POST" action="{{ url_for('addcomment') }}">
                         <div class="form-group">
-                            <textarea class="form-control" name="content" rows="1"></textarea>
+                            <textarea class="form-control" name="content" required = "True" rows="1"></textarea>
                         </div>
                         <input type="hidden" name="postid" value=" {{ post.id }}">
                         <button type="submit" name="btn" class="btn btn-primary">Submit</button>

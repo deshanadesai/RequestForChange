@@ -70,12 +70,9 @@
   <label class="control-label" for="selectbasic"><h5><b>Who Can Change this?</b></h5></label>
   <div class="controls">
     <select id="tags" placeholder = "Select form the dropdown" name="tags" class="form-control input-xxlarge">
-      <option>Academic committee</option>
-      <option>Administration</option>
-      <option>Cultural Committee</option>
-      <option>Student Body Govt.</option>
-      <option>Students</option>
-      <option>Others</option>
+      {%for committee in committees%}
+        <option>{{ committee }}</option>
+      {%endfor%}      
     </select>
     <p></p>
   </div>

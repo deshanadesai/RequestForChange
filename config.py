@@ -12,6 +12,8 @@ import loginmod
 import datetime
 from flask.ext.migrate import Migrate, MigrateCommand
 from flask.ext.login import (UserMixin, current_user, login_required, login_user, logout_user, confirm_login, fresh_login_required)
+from constants import get_committees
+#from pdfs import create_pdf
 
 manager = Manager(app)
 
@@ -50,23 +52,31 @@ def addcomment():
     else:
         return redirect('/show')
 
+
 @app.route("/showpost/<postid>")
+@login_required
 def showpost(postid):
     post = Requests.query.filter(Requests.id == postid).first()
     comments = Comments.query.filter(Comments.request_id == post.id)
     return render_template('showpost.html',post=post,comments=comments)
 
+@login_required
 @app.route("/showtag/<tagid>")
 def showtag(tagid):
-    posts = Requests.query.filter(Requests.tags == tagid)
-    return render_template('requests.html',posts = posts)
+    committees = get_committees()
+    if tagid == 'all':
+        posts = Requests.query.all()
+    else :
+        posts = Requests.query.filter(Requests.tags == tagid)
+    return render_template('requests.html', posts = posts, committees = committees)
 
 @app.route("/show")
 def show_reqs():
+	committees = get_committees()
 	searchtext = request.args.get('search')
 	if searchtext is None:
 		requests = Requests.query.all()
-		return render_template("requests.html", posts = requests)
+		return render_template("requests.html", posts = requests, allposts = Requests.query.all(), committees = committees)
 	else:
 		allrequests = Requests.query.all()
 		requests = []
@@ -74,9 +84,11 @@ def show_reqs():
 			#or searchtext in req.subtitle or searchtext in req.content
 			if searchtext in req.title :
 				requests.append(req)		
-		return render_template("requests.html", posts = requests)
+		return render_template("requests.html", posts = requests, allposts = Requests.query.all(), committees = committees)
 	
+
 @app.route("/showpost/<postid>")
+@login_required
 def show_post(postid):
     post = Requests.query.filter(Requests.id == postid).first()
     comments = Comments.query.filter(Comments.request_id == post.id)
@@ -152,14 +164,14 @@ def change():
         newrequest = Requests(current_user.id, title, subtitle, content, current_user.id, status, False, tags, priority, date, comments_no)
         db.session.add(newrequest)
         db.session.commit()
-        print "Adding to the "
         #return "POSTED"
         return redirect('/show')
         
     else:
-        return render_template('change.html')
+        return render_template('change.html', committees = get_committees())
 
 @app.route('/show/<which>')
+@login_required
 def show(which):
     if which == 'user':
         jsonData = []
@@ -177,6 +189,13 @@ def show(which):
 @app.route('/search', methods =['POST'])
 def search():
 	return redirect(url_for("show_reqs", search = request.form['srch-term']))
+
+@app.route('/savepost/<postid>')
+@login_required
+def postid():
+	pdf = create_pdf(render_template('your/template.html'))
+	return "pdf created"
+    
 	
 @login_manager.user_loader
 def load_user(userid):
