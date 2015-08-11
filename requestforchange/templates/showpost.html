@@ -1,78 +1,81 @@
-<!DOCTYPE html>
-<html lang="en">
+    <!DOCTYPE html>
+    <html lang="en">
 
-<head>
+    <head>
 
-    <meta charset="utf-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <meta name="description" content="">
-    <meta name="author" content="">
+      <meta charset="utf-8">
+      <meta http-equiv="X-UA-Compatible" content="IE=edge">
+      <meta name="viewport" content="width=device-width, initial-scale=1">
+      <meta name="description" content="">
+      <meta name="author" content="">
 
-    <title>Change: {{post.title}}</title>
+      <title>Change: {{post.title}}</title>
 
-    <!-- Bootstrap Core CSS -->
-    <link href="{{ url_for('static', filename = 'css/bootstrap.min.css') }}" rel="stylesheet">
+      <!-- Bootstrap Core CSS -->
+      <link href="{{ url_for('static', filename = 'css/bootstrap.min.css') }}" rel="stylesheet">
 
-    <!-- Custom CSS -->
-    <style>
+      <!-- Custom CSS -->
+      <style>
         body {
-            padding-top: 50px;
-            /* Required padding for .navbar-fixed-top. Remove if using .navbar-static-top. Change if height of navigation changes. */
+          padding-top: 50px;
+          /* Required padding for .navbar-fixed-top. Remove if using .navbar-static-top. Change if height of navigation changes. */
         }
-    </style>
+      </style>
 
-  <button type="button" class="btn btn-primary" onclick="window.location.href='/show';"><span class="glyphicon glyphicon-home"/>  Home</button>
-</head>
+      <button type="button" class="btn btn-primary" onclick="window.location.href='/show';"><span class="glyphicon glyphicon-home"/>  Home</button>
+    </head>
 
-<body>
+    <body>
 
-    <div class="row">
-          <div class="page-header col-md-offset-3 col-md-6 text-center">
-            <h1>{{ post.title }}</h1><br><br>
-            {% if post.subtitle %}
-            <h2> {{ post.subtitle }} </h2>
-            {% endif %}
+      <div class="row">
+        <div class="page-header col-md-offset-3 col-md-6 text-center">
+          <h1>{{ post.title }}</h1><br><br>
+          {% if post.subtitle %}
+          <h2> {{ post.subtitle }} </h2>
+          {% endif %}
         </div>
-     </div>
-    <div class="row">
+      </div>
+      <div class="row">
         <div class="col-md-offset-3 col-md-6 text-center">
-        <p>{{ post.content }}</p><br><br>
+          <p>{{ post.content }}</p><br><br>
         </div>
         <div class="col-md-offset-3 col-md-6 pull-left"
-          <p><b>{{ post.date.strftime('%Y-%m-%d') }} | {{ post.supporters|length }} Supporters</p></b>
-          <hr>
-          
-          {% if comments %}
-          <h3>Comments</h3>
-          {% for comment in comments %}
-          <p>{{ comment.body }}</p>
-          <p><strong><b>{{ comment.user_id }}</strong> <small>on {{ comment.date.strftime('%Y-%m-%d') }}</small></p></b>
-          {{ comment.content }}
-          {% endfor %}
-          {% endif %}
-          </p>
-          </div>
-     </div>
-      <div class="well col-md-offset-3 col-md-6 pull-left">
-                    <h4>Leave a Comment:</h4>
-                    <form role="form" method = "POST" action="{{ url_for('addcomment') }}">
-                        <div class="form-group">
-                            <textarea class="form-control" name="content" required = "True" rows="1"></textarea>
-                        </div>
-                        <input type="hidden" name="postid" value=" {{ post.id }}">
-                        <button type="submit" name="btn" class="btn btn-primary">Submit</button>
-                    </form>
-                </div>
+        <p><b>{{ post.date.strftime('%Y-%m-%d') }} | {{ post.supporters|length }} Supporters</p></b>
+        <hr>
 
+        {% if comments %}
+        <h3>Comments</h3>
+        {% for comment in comments %}
+        <p>{{ comment.body }}</p>
+        <p><strong><b>{{ comment.user_id }}</strong> <small>on {{ comment.date.strftime('%Y-%m-%d') }}</small></p></b>
+        {{ comment.content }}
+        {% endfor %}
+        {% endif %}
+      </p>
+    </div>
+  </div>
+  <div class = "col-ms-6"> 
+    <button type="button" class="btn btn-primary" onclick="window.location.href='/show';"><span class="glyphicon glyphicon-arrow-up"/>  Support</button>
+  </div>
+  
+  <div class="well col-md-offset-3 col-md-6 pull-left">
+    <h4>Leave a Comment:</h4>
+    <form role="form" method = "POST" action="{{ url_for('addcomment') }}">
+      <div class="form-group">
+        <textarea class="form-control" name="content" required = "True" rows="1"></textarea>
+      </div>
+      <input type="hidden" name="postid" value=" {{ post.id }}">
+      <button type="submit" name="btn" class="btn btn-primary">Submit</button>
+    </form>
+  </div>
 
- <!-- /.container -->
+<!-- /.container -->
 
- <!-- jQuery Version 1.11.1 -->
- <script src="{{ url_for('static', filename='js/jquery.js') }}"></script>
+  <!-- jQuery Version 1.11.1 -->
+  <script src="{{ url_for('static', filename='js/jquery.js') }}"></script>
 
- <!-- Bootstrap Core JavaScript -->
- <script src="{{ url_for('static', filename='js/bootstrap.min.js') }}"></script>
+  <!-- Bootstrap Core JavaScript -->
+  <script src="{{ url_for('static', filename='js/bootstrap.min.js') }}"></script>
 
 </body>
 
