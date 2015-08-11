@@ -46,6 +46,7 @@ def addcomment():
         date = datetime.datetime.now().strftime("%I:%M%p on %B %d, %Y")
         content = request.form['content']
         comment = Comments(date,userid,postid,content)
+        post.comments_no = post.comments_no + 1
         db.session.add(comment)
         db.session.commit()
         return redirect(url_for("showpost",postid = postid))
