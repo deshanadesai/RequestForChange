@@ -19,7 +19,7 @@ manager.add_command('db', MigrateCommand)
 manager.add_command("runserver", Server(
     use_debugger = True,
     use_reloader = True,
-    host = '0.0.0.0')
+    )
 )
 
 @app.route('/heartbeat')
@@ -28,7 +28,12 @@ def heartbeat():
 
 @app.route("/")
 def hello():
-    return render_template('index.html')
+	if current_user.is_authenticated() :
+		print 'is is_authenticated'
+		return redirect('/show')
+	else :
+		print 'not authenticated'
+		return render_template('index.html')
 
 @app.route("/addcomment", methods=['GET','POST'])
 def addcomment():
@@ -43,15 +48,13 @@ def addcomment():
         db.session.commit()
         return redirect(url_for("showpost",postid = postid))
     else:
-        return redirect(url_for("show_reqs"))
+        return redirect('/show')
 
 @app.route("/showpost/<postid>")
 def showpost(postid):
     post = Requests.query.filter(Requests.id == postid).first()
     comments = Comments.query.filter(Comments.request_id == post.id)
-    for c in comments:
-        print c.id," :digjdi"
-    return render_template('showpost.html',post=post,comments = comments)
+    return render_template('showpost.html',post=post,comments=comments)
 
 @app.route("/showtag/<tagid>")
 def showtag(tagid):
@@ -60,9 +63,19 @@ def showtag(tagid):
 
 @app.route("/show")
 def show_reqs():
-    requests = Requests.query.all()
-    return render_template("requests.html", posts = requests)
-
+	searchtext = request.args.get('search')
+	if searchtext is None:
+		requests = Requests.query.all()
+		return render_template("requests.html", posts = requests)
+	else:
+		allrequests = Requests.query.all()
+		requests = []
+		for req in allrequests:
+			#or searchtext in req.subtitle or searchtext in req.content
+			if searchtext in req.title :
+				requests.append(req)		
+		return render_template("requests.html", posts = requests)
+	
 @app.route("/showpost/<postid>")
 def show_post(postid):
     post = Requests.query.filter(Requests.id == postid).first()
@@ -97,7 +110,7 @@ def login():
                     login_user(user)
                     print "User logged in"
                     print current_user.id
-                    return redirect(url_for('change'))
+                    return redirect('/show')
                 else:
                     return render_template('index.html',error = "Could not login. System error. We apologize for the inconvenience")
         else:
@@ -136,8 +149,6 @@ def change():
         date = datetime.datetime.now().strftime("%I:%M%p on %B %d, %Y")
         comments_no = 0
 
-        #request = Request(owner, title, subtitle, content, supporters, status, approved, tags, priority, date, comments_no)
-        #DESHANA! the constructor: replace the first 1 with the owners ID, the second with his ID again.
         newrequest = Requests(current_user.id, title, subtitle, content, current_user.id, status, False, tags, priority, date, comments_no)
         db.session.add(newrequest)
         db.session.commit()
@@ -163,13 +174,16 @@ def show(which):
             jsonData.append({'id':request.id,'owner':request.owner,'title':request.title,'subtitle':request.subtitle, 'content':request.content, 'supporters':request.supporters, 'status':request.status, 'approved':request.approved, 'tags':request.tags, 'priority':request.priority, 'date':str(request.date)})
         return jsonify(results = jsonData)
 
+@app.route('/search', methods =['POST'])
+def search():
+	return redirect(url_for("show_reqs", search = request.form['srch-term']))
+	
 @login_manager.user_loader
 def load_user(userid):
     print "User loader function"
     print userid
     user = User.query.filter(User.id == userid).first()
     return user
-
 
 @app.route("/logout")
 @login_required

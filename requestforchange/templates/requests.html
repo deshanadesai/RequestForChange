@@ -25,21 +25,24 @@
 
   <div class = "page-header">
     <div class = "row">
-      <div class="col-sm-offset-8  col-sm-2">
-        <form class="navbar-form" role="search">
+      <div class="col-xs-6">
+        <form class="navbar-form" role="search" method = "POST" action = "{{ url_for('search') }}">
           <div class="input-group">
             <input type="text" class="form-control" placeholder="Search" name="srch-term" id="srch-term">
             <div class="input-group-btn">
-              <button class="btn btn-default" type="submit"><span class="glyphicon glyphicon-search"></span></button>
+              <button class="btn btn-default" type="submit" ><span class="glyphicon glyphicon-search"></span></button>
             </div>
           </div>
-        </form></div>
-        <div class="col-sm-2">
-          <button type="button" class="btn btn-primary">Write a Petition  <span class="glyphicon glyphicon-pencil"></span></button>
+        </form>
+      </div>
+      <div class="col-xs-6">
+        <div class='btn-toolbar pull-right'>
+            <button type="button" class="btn btn-primary" onclick="window.location.href='/change';"><span class="glyphicon glyphicon-pencil"/> WriteAPetition</button>
+            <button type="button" class="btn btn-primary" onclick="window.location.href='/logout';"><span class="glyphicon glyphicon-log-out"/> SignOut</button>    
         </div>
       </div>
-    </div>
-
+      </div>
+  </div>
 
   <div class="container">
   <div class = "row">
