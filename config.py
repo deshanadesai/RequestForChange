@@ -105,7 +105,7 @@ def login():
         print webmailid," ",password
         string = loginmod.makerequest(webmailid,password)
         if string == 'True':
-            if User.query.filter(User.webmailid == webmailid).count() == 1:
+            if User.query.filter(User.id == webmailid).count() == 1:
                 print "user already exists"
             else :
                 print "creating new user"
@@ -113,9 +113,9 @@ def login():
                 db.session.add(user)
                 db.session.commit()
             print "Coming here"
-            user = User.query.filter(User.webmailid == webmailid).first()
+            user = User.query.filter(User.id == webmailid).first()
 
-            print user.webmailid
+            print user.id
             print user.active
             if user.active:
                 print "User is active"
@@ -177,7 +177,7 @@ def show(which):
         jsonData = []
         users = User.query.all()
         for user in users :
-            jsonData.append({'id':user.id, 'webmailid':user.webmailid, 'is_admin':user.is_admin})
+            jsonData.append({'id':user.id, 'is_admin':user.is_admin})
         return jsonify(results = jsonData)
     if which == 'request':
         jsonData = []
@@ -234,13 +234,12 @@ def logout():
 
 class User(db.Model, UserMixin):
     __tablename__ = 'users'
-    id = db.Column(db.Integer, autoincrement = True, primary_key = True)
-    webmailid = db.Column(db.String(63))
+    id = db.Column(db.Integer, primary_key = True)
     is_admin = db.Column(db.Boolean, default = False)
     active = db.Column(db.Boolean, default = True)
 
-    def __init__(self, webmailid=None, is_admin=None, active=None):
-        self.webmailid = webmailid
+    def __init__(self, id=None, is_admin=None, active=None):
+        self.id = id
         self.is_admin = is_admin
         self.active = active
     
