@@ -40,7 +40,7 @@
           <p>{{ post.content }}</p><br><br>
         </div>
         <div class="col-md-offset-3 col-md-6 pull-left"
-        <p><b>{{ post.date.strftime('%Y-%m-%d') }} | {{ post.supporters|length }} Supporters</p></b>
+        <p><b>{{ post.date.strftime('%Y-%m-%d') }} | {{ post.supporters.split()|length }} Supporters</p></b>
         <hr>
 
         {% if comments %}
@@ -55,7 +55,7 @@
     </div>
   </div>
   <div class = "col-ms-6"> 
-    <button type="button" class="btn btn-primary" onclick="window.location.href='/show';"><span class="glyphicon glyphicon-arrow-up"/>  Support</button>
+    <button type="button" class="btn btn-primary" onclick="window.location.href='/upvote/{{ post.id }}';"><span class="glyphicon glyphicon-arrow-up"/>  Support</button>
   </div>
   
   <div class="well col-md-offset-3 col-md-6 pull-left">

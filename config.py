@@ -13,7 +13,7 @@ import datetime
 from flask.ext.migrate import Migrate, MigrateCommand
 from flask.ext.login import (UserMixin, current_user, login_required, login_user, logout_user, confirm_login, fresh_login_required)
 from constants import get_committees
-#from pdfs import create_pdf
+from pdfs import create_pdf
 
 manager = Manager(app)
 
@@ -162,12 +162,11 @@ def change():
         date = datetime.datetime.now().strftime("%I:%M%p on %B %d, %Y")
         comments_no = 0
 
-        newrequest = Requests(current_user.id, title, subtitle, content, current_user.id, status, False, tags, priority, date, comments_no)
+        newrequest = Requests(current_user.id, title, subtitle, content, str(current_user.id), status, False, tags, priority, date, comments_no)
         db.session.add(newrequest)
         db.session.commit()
         #return "POSTED"
         return redirect('/show')
-        
     else:
         return render_template('change.html', committees = get_committees())
 
@@ -193,10 +192,27 @@ def search():
 
 @app.route('/savepost/<postid>')
 @login_required
-def postid():
-	pdf = create_pdf(render_template('your/template.html'))
-	return "pdf created"
+def savepost(postid):
+    post = Requests.query.filter(Requests.id == postid).first()
+    comments = Comments.query.filter(Comments.request_id == post.id)
+    pdf = create_pdf(render_template('showpost.html',post=post,comments=comments))
+    return pdf
     
+@app.route('/upvote/<postid>')
+@login_required
+def upvote(postid):
+    post = Requests.query.filter(Requests.id == postid).first()
+    supporters = str(post.supporters).split()
+    print supporters
+    if str(current_user.id) not in supporters :
+        supporters.append(current_user.id)
+        print 'added user to supporting list'
+    else :
+        print 'user already supporting'
+
+    post.supporters = ' '.join(str(sup) for sup in supporters)
+    db.session.commit()
+    return redirect(url_for("showpost", postid = postid))
 	
 @login_manager.user_loader
 def load_user(userid):

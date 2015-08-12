@@ -86,7 +86,7 @@
     <br>
       <b> Post Description: </b>{{ post.content|truncate(250) }}</font><br><br>
       <p><b>
-        <font size = 2>{{ post.date.strftime('%Y-%m-%d') }} | {{supporters|length}} Supporters | {{ post.comments_no }} comments |<a href='/savepost/{{post.id}}'> save</a></font>
+        <font size = 2>{{ post.date.strftime('%Y-%m-%d') }} | {{ post.supporters.split()|length }} Supporters | {{ post.comments_no }} comments |<a href='/savepost/{{post.id}}'> save</a></font>
 
       </p><br></b>
     </div>
