@@ -76,17 +76,34 @@ def show_reqs():
 	committees = get_committees()
 	searchtext = request.args.get('search')
 	if searchtext is None:
-		requests = Requests.query.all()
-		return render_template("requests.html", posts = requests, allposts = Requests.query.all(), committees = committees)
+		requests = Requests.query.filter(Requests.approved == True)
+		return render_template("requests.html", posts = requests, committees = committees)
 	else:
-		allrequests = Requests.query.all()
+		allrequests = Requests.query.filter(Requests.approved == True)
 		requests = []
 		for req in allrequests:
 			#or searchtext in req.subtitle or searchtext in req.content
 			if searchtext in req.title :
 				requests.append(req)		
-		return render_template("requests.html", posts = requests, allposts = Requests.query.all(), committees = committees)
+		return render_template("requests.html", posts = requests, committees = committees)
 	
+@app.route("/admin/pending")
+@login_required
+def admin_showreqs():
+    committees = get_committees()
+    if current_user.is_admin == True:
+        requests = Requests.query.filter(Requests.approved == False)
+        return render_template("admin_pendingrequests.html", posts = requests, committees = committees)
+    else:
+        return render_template("404.html")
+
+@app.route("/admin/approve/<postid>")
+@login_required
+def approve_post(postid):
+    post = Requests.query.filter(Requests.id == postid).first()
+    post.approved = True
+    db.session.commit()
+    return redirect('/admin/pending')
 
 @app.route("/showpost/<postid>")
 @login_required

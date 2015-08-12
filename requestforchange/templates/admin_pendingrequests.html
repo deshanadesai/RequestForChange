@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="">
+  <meta name="author" content="">
+
+  <title>Bring Change</title>
+
+
+  <!-- Bootstrap Core CSS -->
+  <link href="{{ url_for('static', filename = 'css/bootstrap.min.css') }}" rel="stylesheet">
+
+  <!-- Custom CSS -->
+  <style>
+    body {
+      padding-top: 0px;
+      /* Required padding for .navbar-fixed-top. Remove if using .navbar-static-top. Change if height of navigation changes. */
+    }
+  </style>
+
+  <div class = "page-header">
+    <div class = "row">
+      <div class="col-xs-5 text-right">
+        <form class="navbar-form" role="search" method = "POST" action = "{{ url_for('search') }}">
+          <div class="input-group">
+            <input type="text" class="form-control" placeholder="Search" name="srch-term" id="srch-term">
+            <div class="input-group-btn">
+              <button class="btn btn-default" type="submit" ><span class="glyphicon glyphicon-search"></span></button>
+            </div>
+          </div>
+        </form>
+      </div>
+      <div class="col-xs-7 text-right">
+        <div class='btn-toolbar pull-right'>
+            <button type="button" class="btn btn-primary" onclick="window.location.href='/show';"><span class="glyphicon glyphicon-home"/>  Home</button>
+            <button type="button" class="btn btn-primary" onclick="window.location.href='/change';"><span class="glyphicon glyphicon-pencil"/> WriteAPetition</button>
+            <button type="button" class="btn btn-primary" onclick="window.location.href='/logout';"><span class="glyphicon glyphicon-log-out"/> SignOut</button>
+        </div>
+      </div>
+      </div>
+  </div>
+
+  <div class="container">
+  <div class = "row">
+
+    <div class="col-sm-offset-1 col-sm-6 col-md-offset-1 col-md-6 text-center">
+      <h1>Request for Change.</h1>
+      <p class="lead">Don't wait for it to come to you. Demand it.</p>
+      <ul class="list-unstyled">
+      </ul>
+    </div>   
+
+    </div>
+
+  </div>
+
+</head>
+
+<body>
+
+<div class = "col-ms-10">
+  <ul id="menu">
+    <li><a href="/showtag/all">All</a></li>
+    {%for committee in committees%}
+      <li><a href="/showtag/{{committee}}">{{committee}}</a></li>
+    {%endfor %}
+</ul>
+</div>
+
+{% for post in posts %}
+    
+        <div class="col-sm-offset-1 col-sm-8 col-md-offset-1 col-md-8">
+        <div class="panel panel-default">
+   <div class="panel-body">
+      <font color=#008080 size = 4><b><a href='/showpost/{{post.id}}'>{{ post.title }}</a></font> <br></b><br>
+<!--      {% if post.subtitle %}
+        <h4>{{ post.subtitle }}</h4>
+      {% endif %}-->
+      <font size = 2><b> Subjected To : </b><a href='/showtag/{{ post.tags }}'>
+        {{ post.tags }}    </a>
+    <br>
+      <b> Post Description: </b>{{ post.content|truncate(250) }}</font><br><br>
+      <p><b>
+        <font size = 2>{{ post.date.strftime('%Y-%m-%d') }} | {{ post.supporters.split()|length }} Supporters | {{ post.comments_no }} comments |<a href='/admin/approve/{{post.id}}'> APPROVE</a></font>
+
+      </p><br></b>
+    </div>
+    </div>
+    </div>
+
+    {% endfor %}
+    
+    <!-- /.container -->
+
+<br><br><br><br><br><br><br>
+
+    <!-- jQuery Version 1.11.1 -->
+    <script src="{{ url_for('static', filename='js/jquery.js') }}"></script>
+
+    <!-- Bootstrap Core JavaScript -->
+    <script src="{{ url_for('static', filename='js/bootstrap.min.js') }}"></script>
+
+</body>
+
+</html>
