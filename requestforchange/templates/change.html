@@ -13,11 +13,16 @@
 
     <!-- Bootstrap Core CSS -->
     <link href="{{ url_for('static', filename = 'css/bootstrap.min.css') }}" rel="stylesheet">
+    <link href="{{ url_for('static', filename = 'css/custom.css') }}" rel="stylesheet">
+    <!-- Polymer -->
+     <script type="text/javascript" src="{{ url_for('static', filename = 'bower_components/webcomponentsjs/webcomponents-lite.js') }}"></script>
+  <link href="{{ url_for('static', filename = 'bower_components/polymer/polymer.html') }}" rel="import">
+  <link href="{{ url_for('static', filename = 'bower_components/paper-header-panel/paper-header-panel.html') }}" rel="import">
+  <link href="{{ url_for('static', filename = 'bower_components/paper-toolbar/paper-toolbar.html') }}" rel="import">
 
     <!-- Custom CSS -->
     <style>
     body {
-        padding-top: 70px;
         background-color: #f4f4f4;
         /* Required padding for .navbar-fixed-top. Remove if using .navbar-static-top. Change if height of navigation changes. */
     }
@@ -27,7 +32,18 @@
 </head>
 
 <body>
-
+ <paper-header-panel>
+    <paper-toolbar style="margin:20px;">
+          <div style="float:left">
+            <h1 id="site-title">Request for Change.</h1>
+              <p class="lead">Don't wait for it to come to you. Demand it.</p>
+          </div>
+            <paper-button type="button" class="btn btn-primary r-btn" onclick="window.location.href='/logout';"><span class="glyphicon glyphicon-log-out"/> SignOut</paper-button>
+            
+            <paper-button type="button" class="btn btn-primary r-btn" onclick="window.location.href='/show';"><span class="glyphicon glyphicon-home"/>  Home</paper-button>
+            
+    </paper-toolbar>
+  </paper-header-panel>
 <div id = "wrapper" class = "container">
 <form class="form-horizontal" action="change" method="POST">
 <div class = "col-lg-offset-3 col-lg-6">

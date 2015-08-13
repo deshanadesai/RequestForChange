@@ -10,23 +10,42 @@
   <meta name="author" content="">
 
   <title>Bring Change</title>
-
+  
+  
 
   <!-- Bootstrap Core CSS -->
   <link href="{{ url_for('static', filename = 'css/bootstrap.min.css') }}" rel="stylesheet">
-
+  <link href="{{ url_for('static', filename = 'css/custom.css') }}" rel="stylesheet">
+  <script type="text/javascript" src="{{ url_for('static', filename = 'bower_components/webcomponentsjs/webcomponents-lite.js') }}"></script>
+  <link href="{{ url_for('static', filename = 'bower_components/polymer/polymer.html') }}" rel="import">
+  <!-- <link rel="import" href="{{ url_for('static', filename = 'test.html') }}"> -->
   <!-- Custom CSS -->
-  <style>
+  <link href="{{ url_for('static', filename = 'bower_components/paper-header-panel/paper-header-panel.html') }}" rel="import">
+  <link href="{{ url_for('static', filename = 'bower_components/paper-material/paper-material.html') }}" rel="import">
+  <link href="{{ url_for('static', filename = 'bower_components/paper-toolbar/paper-toolbar.html') }}" rel="import">
+  <link href="{{ url_for('static', filename = 'bower_components/iron-flex-layout/iron-flex-layout.html') }}" rel="import">
+
+  <!-- FOnts -->
+  <link href="{{ url_for('static', filename = 'bower_components/font-roboto/roboto.html') }}" rel="import">
+
+<link href="{{ url_for('static', filename = 'bower_components/paper-button/paper-button.html') }}" rel="import">  <style>
     body {
       padding-top: 0px;
       /* Required padding for .navbar-fixed-top. Remove if using .navbar-static-top. Change if height of navigation changes. */
     }
   </style>
 
-  <div class = "page-header">
-    <div class = "row">
-      <div class="col-xs-5 text-right">
-        <form class="navbar-form" role="search" method = "POST" action = "{{ url_for('search') }}">
+  <paper-header-panel>
+    <paper-toolbar style="margin:20px;">
+          <div style="float:left">
+            <h1 id="site-title">Request for Change.</h1>
+              <p class="lead">Don't wait for it to come to you. Demand it.</p>
+          </div>
+            <paper-button type="button" class="btn btn-primary r-btn" onclick="window.location.href='/logout';"><span class="glyphicon glyphicon-log-out"/> SignOut</paper-button>
+            <paper-button type="button" class="btn btn-primary r-btn" onclick="window.location.href='/change';"><span class="glyphicon glyphicon-pencil"/> WriteAPetition</paper-button>
+            
+            <paper-button type="button" class="btn btn-primary r-btn" onclick="window.location.href='/show';"><span class="glyphicon glyphicon-home"/>  Home</paper-button>
+            <form style="float:right" class="navbar-form" role="search" method = "POST" action = "{{ url_for('search') }}">
           <div class="input-group">
             <input type="text" class="form-control" placeholder="Search" name="srch-term" id="srch-term">
             <div class="input-group-btn">
@@ -34,70 +53,53 @@
             </div>
           </div>
         </form>
-      </div>
-      <div class="col-xs-7 text-right">
-        <div class='btn-toolbar pull-right'>
-            <button type="button" class="btn btn-primary" onclick="window.location.href='/show';"><span class="glyphicon glyphicon-home"/>  Home</button>
-            <button type="button" class="btn btn-primary" onclick="window.location.href='/change';"><span class="glyphicon glyphicon-pencil"/> WriteAPetition</button>
-            <button type="button" class="btn btn-primary" onclick="window.location.href='/logout';"><span class="glyphicon glyphicon-log-out"/> SignOut</button>
-        </div>
-      </div>
-      </div>
-  </div>
-
-  <div class="container">
-  <div class = "row">
-
-    <div class="col-sm-offset-1 col-sm-6 col-md-offset-1 col-md-6 text-center">
-      <h1>Request for Change.</h1>
-      <p class="lead">Don't wait for it to come to you. Demand it.</p>
-      <ul class="list-unstyled">
-      </ul>
-    </div>   
-
-    </div>
-
-  </div>
-
+    </paper-toolbar>
+  </paper-header-panel>
 </head>
 
 <body>
 
-<div class = "col-ms-10">
-  <ul id="menu">
-    <li><a href="/showtag/all">All</a></li>
-    {%for committee in committees%}
-      <li><a href="/showtag/{{committee}}">{{committee}}</a></li>
-    {%endfor %}
-</ul>
-</div>
-
-{% for post in posts %}
+<paper-material class="r-layout" elevation="0" layout horizontal>
+  <div style="width:30%; float:right;" class="">
+    <div class = "col-ms-10 right-sidebar-1">
+      <ul id="menu">
+        <li><a href="/showtag/all">All</a></li>
+          {%for committee in committees%}
+        <li><a href="/showtag/{{committee}}">{{committee}}</a></li>
+        {%endfor %}
+      </ul>
+    </div>
+  </div>
+  <div style="width:70%">
+    {% for post in posts %}
     
-        <div class="col-sm-offset-1 col-sm-8 col-md-offset-1 col-md-8">
-        <div class="panel panel-default">
-   <div class="panel-body">
-      <font color=#008080 size = 4><b><a href='/showpost/{{post.id}}'>{{ post.title }}</a></font> <br></b><br>
-<!--      {% if post.subtitle %}
-        <h4>{{ post.subtitle }}</h4>
-      {% endif %}-->
-      <font size = 2><b> Subjected To : </b><a href='/showtag/{{ post.tags }}'>
-        {{ post.tags }}    </a>
-    <br>
-      <b> Post Description: </b>{{ post.content|truncate(250) }}</font><br><br>
-      <p><b>
-        <font size = 2>{{ post.date.strftime('%Y-%m-%d') }} | {{ post.supporters.split()|length }} Supporters | {{ post.comments_no }} comments |<a href='/savepost/{{post.id}}'> save</a></font>
+        <div class="">
+          <div class="panel panel-default">
+           <div class="panel-body">
+              <h3><a href='/showpost/{{post.id}}'>{{ post.title }}</a></h3>
+              <p style="display:block">  
+                <span class="bold-text">Subjected To</span> : <a href='/showtag/{{ post.tags }}'>{{ post.tags }}</a>
+              </p>
+              <p style="display:block">
+                <span class="bold-text">Post Description : </span>{{ post.content|truncate(250) }}
+              </p>
+              <div class="meta">
+                <span>{{ post.date.strftime('%Y-%m-%d') }}</span> | <span>{{ post.supporters.split()|length }} Supporters</span> | <span>{{ post.comments_no }} comments</span> |<span><a href='/savepost/{{post.id}}'> save</a></span>
+              </div>
 
-      </p><br></b>
-    </div>
-    </div>
-    </div>
+              
+            </div>
+          </div>
+        </div>
 
     {% endfor %}
+
+  </div>  
+</paper-material>
+
+
     
     <!-- /.container -->
-
-<br><br><br><br><br><br><br>
 
     <!-- jQuery Version 1.11.1 -->
     <script src="{{ url_for('static', filename='js/jquery.js') }}"></script>

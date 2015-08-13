@@ -61,8 +61,9 @@ def showpost(postid):
     comments = Comments.query.filter(Comments.request_id == post.id)
     return render_template('showpost.html',post=post,comments=comments)
 
-@login_required
+
 @app.route("/showtag/<tagid>")
+@login_required
 def showtag(tagid):
     committees = get_committees()
     if tagid == 'all':
@@ -72,6 +73,7 @@ def showtag(tagid):
     return render_template('requests.html', posts = posts, committees = committees)
 
 @app.route("/show")
+@login_required
 def show_reqs():
 	committees = get_committees()
 	searchtext = request.args.get('search')
