@@ -291,7 +291,7 @@ class Requests(db.Model):
     subtitle = db.Column(db.String(511))
     content = db.Column(db.Text)
     supporters = db.Column(db.Text)
-    status = db.Column(db.Text)
+    status = db.Column(db.Text) #open/closed
     approved = db.Column(db.Boolean, default = False)
     tags = db.Column(db.Text)
     priority = db.Column(db.Integer, default = 3) # 3 = low
@@ -324,6 +324,7 @@ class Comments(db.Model):
     user_id = db.Column(db.Integer, db.ForeignKey('users.id'))
     request_id = db.Column(db.Integer, db.ForeignKey('requests.id'))
     content = db.Column(db.Text)
+    visible = db.Column(db.Boolean, default = True)
 
     def __init__(self,date,user_id,request_id,content):
         self.date = date
