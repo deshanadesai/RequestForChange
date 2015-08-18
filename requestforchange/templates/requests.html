@@ -1,158 +1,165 @@
-      <!DOCTYPE html>
-      <html lang="en">
+        <!DOCTYPE html>
+        <html lang="en">
 
-      <head>
+        <head>
 
-        <meta charset="utf-8">
-        <meta http-equiv="X-UA-Compatible" content="IE=edge">
-        <meta name="viewport" content="width=device-width, initial-scale=1">
-        <meta name="description" content="">
-        <meta name="author" content="">
+          <meta charset="utf-8">
+          <meta http-equiv="X-UA-Compatible" content="IE=edge">
+          <meta name="viewport" content="width=device-width, initial-scale=1">
+          <meta name="description" content="">
+          <meta name="author" content="">
 
-        <title>Bring Change</title>
+          <title>Bring Change</title>
 
-        <!-- Bootstrap Core CSS -->
-        <link href="{{ url_for('static', filename = 'css/bootstrap.min.css') }}" rel="stylesheet">
+          <!-- Bootstrap Core CSS -->
+          <link href="{{ url_for('static', filename = 'css/bootstrap.min.css') }}" rel="stylesheet">
 
-        <link href="{{ url_for('static', filename = 'css/custom-css.css') }}" rel = "stylesheet">
+          <link href="{{ url_for('static', filename = 'css/custom-css.css') }}" rel = "stylesheet">
 
-        <!-- Fonts -->
-        <link href="{{ url_for('static', filename = 'fonts/font-roboto/roboto.html') }}" rel="import">
+          <!-- Fonts -->
+          <link href="{{ url_for('static', filename = 'fonts/font-roboto/roboto.html') }}" rel="import">
 
-        <!-- Custom CSS -->
-        <!--
-        <style>
-          body {
-            padding-top: 0px;
-            background: #F8F6F6;
+          <!-- Custom CSS -->
+          <!--
+          <style>
+            body {
+              padding-top: 0px;
+              background: #F8F6F6;
 
-            /* Required padding for .navbar-fixed-top. Remove if using .navbar-static-top. Change if height of navigation changes. */
+              /* Required padding for .navbar-fixed-top. Remove if using .navbar-static-top. Change if height of navigation changes. */
+            }
+            div.divclass{
+              position:relative;
+              display: inline;
+              padding: 8px;
+              float: right;
+            }
+            div.formwala{
+             float: left; 
+             padding: 7px;
+           }
+           div.filters{
+            float:right;
+            background-color: white;
+            padding: 15px;
+            padding-left: 30px;
+            padding-right: 30px;
+            margin-right: 10%;
+            border: 1px solid rgba(0,0,0,0.1);
+            margin-top: 2%;
+            border-radius: 10px;
           }
-          div.divclass{
-            position:relative;
-            display: inline;
-            padding: 8px;
-            float: right;
+          div.navbar-dubba{
+            height: 20%;
+            box-shadow: 0px 2px 2px gray;
           }
-          div.formwala{
-           float: left; 
-           padding: 7px;
-         }
-         div.filters{
-          float:right;
-          background-color: white;
-          padding: 15px;
-          padding-left: 30px;
-          padding-right: 30px;
-          margin-right: 10%;
-          border: 1px solid rgba(0,0,0,0.1);
-          margin-top: 2%;
-          border-radius: 10px;
-        }
-        div.navbar-dubba{
-          height: 20%;
-          box-shadow: 0px 2px 2px gray;
-        }
-        .title-new{
-          font-size: 30px;
-          margin-top: 5px;
-          font-weight: bold;
-          padding: 10px;
-        }
-        .subtitle-new{
-          font-size: 15px;
-          margin-top: 0px;
-          padding-left: 10px;
-        }
-        .list-filters{
-          list-style-type: none;
-          margin-left: -30px;
-        }
-        .requests-list{
-          width: 50%;
-          margin-bottom: 20px;
-          margin-left: 10%;
-          margin-top: 2%;
-          background-color: #fdfdfd;
-          border-radius: 10px;
-          border: 1px solid rgba(0,0,0,0.1);
-          -webkit-box-shadow: 0 1px 1px rgba(0, 0, 0, .05);
-          box-shadow: 0 1px 1px rgba(0, 0, 0, .05);
-        }
-        .trwala{
-          width: 100%;
-        }
-      </style>  
-    -->
-  </head>
-  <body>
+          .title-new{
+            font-size: 30px;
+            margin-top: 5px;
+            font-weight: bold;
+            padding: 10px;
+          }
+          .subtitle-new{
+            font-size: 15px;
+            margin-top: 0px;
+            padding-left: 10px;
+          }
+          .list-filters{
+            list-style-type: none;
+            margin-left: -30px;
+          }
+          .requests-list{
+            width: 50%;
+            margin-bottom: 20px;
+            margin-left: 10%;
+            margin-top: 2%;
+            background-color: #fdfdfd;
+            border-radius: 10px;
+            border: 1px solid rgba(0,0,0,0.1);
+            -webkit-box-shadow: 0 1px 1px rgba(0, 0, 0, .05);
+            box-shadow: 0 1px 1px rgba(0, 0, 0, .05);
+          }
+          .trwala{
+            width: 100%;
+          }
+        </style>  
+      -->
+    </head>
+    <body>
 
-    <nav class = "navbar">
-      <table>
-        <tr>
-          <td class = "navbar-title">
-            <p> Request For Change.</p>
-          </td>
-          <td width="30%"></td>
-          <td ><a class="navbar-element" onclick="window.location.href='/show';">  Home  </a>
-          </td>
-          <td width="10px"></td>
-          <td><a class="navbar-element" onclick="window.location.href='/change';">  WriteAPetition  </a>
-          </td>
-          <td width="10px"></td>
-          <td><a class="navbar-element" onclick="window.location.href='/logout';">SignOut</a> 
-          </td>
-          <td>      
-            <form class="navbar-form" role="search" method = "POST" action = "{{ url_for('search') }}">
-              <input type="text" class="form-control" placeholder="Search" name="srch-term" id="srch-term">
-              <button  class="btn btn-default" type="submit" ><span class="glyphicon glyphicon-search"></span></button>
-            </form>
-          </td>        
-        </tr>
-        <tr>      
-          <td class = "navbar-subtitle">Don't wait for it to come to you. Demand it.</td>
-        </tr>
-      </table>
-    </nav>
+      <nav class = "navbar">
+        <table>
+          <tr>
+            <td class = "navbar-title">
+              <p> Request For Change.</p>
+            </td>
+            <td width="30%"></td>
+            <td ><a class="navbar-element" onclick="window.location.href='/show';">  Home  </a>
+            </td>
+            <td width="10px"></td>
+            <td><a class="navbar-element" onclick="window.location.href='/change';">  WriteAPetition  </a>
+            </td>
+            <td width="10px"></td>
+            <td><a class="navbar-element" onclick="window.location.href='/logout';">SignOut</a> 
+            </td>
+            <td>      
+              <form class="navbar-form" role="search" method = "POST" action = "{{ url_for('search') }}">
+                <input type="text" class="form-control" placeholder="Search" name="srch-term" id="srch-term">
+                <button  class="btn btn-default" type="submit" ><span class="glyphicon glyphicon-search"></span></button>
+              </form>
+            </td>        
+          </tr>
+          <tr>      
+            <td class = "navbar-subtitle">Don't wait for it to come to you. Demand it.</td>
+          </tr>
+        </table>
+      </nav>
 
-    <div class="content-box">
-      <div class = "left-sidebar">
-        <ul class = "filters">
-          <li><a class = "list-element" href="/showtag/all">All</a></li>
-          {%for committee in committees%}
-          <li><a class = "list-element" href="/showtag/{{committee}}">{{committee}}</a></li>
-          {%endfor %}
-        </ul>
-    </div>
+      <div class="content-box">
+        <div class = "left-sidebar">
+          <ul class = "filters">
+            <li><a class = "list-element" href="/showtag/all">All</a></li>
+            {%for committee in committees%}
+            <li><a class = "list-element" href="/showtag/{{committee}}">{{committee}}</a></li>
+            {%endfor %}
+          </ul>
+        </div>
 
-    <div class = "main-content">
-      
-        {% for post in posts %}
+        <div class = "main-content">
 
-        <div class="request-card">
-          <br>
-          <b><a href='/showpost/{{post.id}}'>{{ post.title }}</a></b><br>
-          {% if post.subtitle %}
+          {% for post in posts %}
+
+          <div class="request-card">
+            <br>
+            <div class = "request-card-title-div" >
+              <a class = "request-card-title" href='/showpost/{{post.id}}'>{{ post.title }}</a>
+            </div>
+            {% if post.subtitle %}
             <h4>{{ post.subtitle }}</h4>
             {% endif %}
-            <b> Subjected To : </b><a href='/showtag/{{ post.tags }}'>
-              {{ post.tags }}    </a>
-              <br>
-              <b> Post Description: </b>{{ post.content|truncate(250) }}<br>
-              <p><b>
+            <font class = "request-sub"> Subjected To :
+            <a class = "request-card-sub"  href='/showtag/{{ post.tags }}'>
+              {{ post.tags }} </a></font>
+              <div class = "request-desc-div">
+                <font class = "request-desc">Post Description: </font> 
+                {{ post.content|truncate(250) }}
+              </div>
+              <div>
+              <font class = "request-meta">
                 {{ post.date.strftime('%Y-%m-%d') }} | {{ post.supporters.split()|length }} Supporters | {{ post.comments_no }} comments |<a href='/savepost/{{post.id}}'> save</a>
-              </b></p><br>
+              </font>
+              </div>
             </div>
             {% endfor %}
+          </div>
         </div>
-      </div>
 
-      <!-- jQuery Version 1.11.1 -->
-      <script src="{{ url_for('static', filename='js/jquery.js') }}"></script>
+        <!-- jQuery Version 1.11.1 -->
+        <script src="{{ url_for('static', filename='js/jquery.js') }}"></script>
 
-      <!-- Bootstrap Core JavaScript -->
-      <script src="{{ url_for('static', filename='js/bootstrap.min.js') }}"></script>
+        <!-- Bootstrap Core JavaScript -->
+        <script src="{{ url_for('static', filename='js/bootstrap.min.js') }}"></script>
 
-    </body>
+      </body>
 
-    </html>
+      </html>
