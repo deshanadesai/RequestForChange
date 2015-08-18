@@ -10,112 +10,171 @@
       <meta name="author" content="">
 
       <title>Change: {{post.title}}</title>
-
       <!-- Bootstrap Core CSS -->
-     <link href="{{ url_for('static', filename = 'css/bootstrap.min.css') }}" rel="stylesheet">
-  <link href="{{ url_for('static', filename = 'css/custom.css') }}" rel="stylesheet">
-  <script type="text/javascript" src="{{ url_for('static', filename = 'bower_components/webcomponentsjs/webcomponents-lite.js') }}"></script>
-  <link href="{{ url_for('static', filename = 'bower_components/polymer/polymer.html') }}" rel="import">
-
- <link href="{{ url_for('static', filename = 'bower_components/paper-header-panel/paper-header-panel.html') }}" rel="import">
-  <link href="{{ url_for('static', filename = 'bower_components/paper-material/paper-material.html') }}" rel="import">
-  <link href="{{ url_for('static', filename = 'bower_components/paper-toolbar/paper-toolbar.html') }}" rel="import">
-  <link href="{{ url_for('static', filename = 'bower_components/iron-flex-layout/iron-flex-layout.html') }}" rel="import">
-
-  <!-- FOnts -->
-  <link href="{{ url_for('static', filename = 'bower_components/font-roboto/roboto.html') }}" rel="import">
-
-<link href="{{ url_for('static', filename = 'bower_components/paper-button/paper-button.html') }}" rel="import">
+      <link href="{{ url_for('static', filename = 'css/bootstrap.min.css') }}" rel="stylesheet">
 
       <!-- Custom CSS -->
       <style>
         body {
-          /*padding-top: 50px;*/
+          padding-top: 50px;
           /* Required padding for .navbar-fixed-top. Remove if using .navbar-static-top. Change if height of navigation changes. */
         }
       </style>
 
+      <style>
+        body {
+          padding-top: 0px;
+          background: #F8F6F6;
+
+          /* Required padding for .navbar-fixed-top. Remove if using .navbar-static-top. Change if height of navigation changes. */
+        }
+        div.divclass{
+          position:relative;
+          display: inline;
+          padding: 8px;
+          float: right;
+        }
+        div.formwala{
+         float: left; 
+         padding: 7px;
+       }
+       div.filters{
+        float:right;
+        background-color: white;
+        padding: 15px;
+        padding-left: 30px;
+        padding-right: 30px;
+        margin-right: 10%;
+        border: 1px solid rgba(0,0,0,0.1);
+        margin-top: 2%;
+        border-radius: 10px;
+      }
+      div.navbar-dubba{
+        height: 100px;
+        box-shadow: 0px 8px 5px gray;
+      }
+      .title-new{
+        font-size: 30px;
+        margin-top: 5px;
+        font-weight: bold;
+        padding: 10px;
+      }
+      .subtitle-new{
+        font-size: 15px;
+        margin-top: 0px;
+        padding-left: 10px;
+      }
+      .list-filters{
+        list-style-type: none;
+        margin-left: -30px;
+      }
+      .requests-list{
+        width: 50%;
+        margin-bottom: 20px;
+        margin-left: 10%;
+        margin-top: 2%;
+        background-color: #fdfdfd;
+        border-radius: 10px;
+        border: 1px solid rgba(0,0,0,0.1);
+        -webkit-box-shadow: 0 1px 1px rgba(0, 0, 0, .05);
+        box-shadow: 0 1px 1px rgba(0, 0, 0, .05);
+      }
+      .trwala{
+        width: 100%;
+      }
+      .comment-list{
+        background: white;
+        border-radius: 5px;
+        padding: 2px 10px;
+        margin: 5px 0;
+        border: 1px solid #ddf;
+      }
       
-    </head>
+    </style>  
+  </head>
 
-    <body>
-      <paper-header-panel>
-    <paper-toolbar style="margin:20px;">
-          <div style="float:left">
-            <h1 id="site-title">Request for Change.</h1>
-              <p class="lead">Don't wait for it to come to you. Demand it.</p>
-          </div>
-            <paper-button type="button" class="btn btn-primary r-btn" onclick="window.location.href='/logout';"><span class="glyphicon glyphicon-log-out"/> SignOut</paper-button>
-            <paper-button type="button" class="btn btn-primary r-btn" onclick="window.location.href='/change';"><span class="glyphicon glyphicon-pencil"/> WriteAPetition</paper-button>
-            
-            <paper-button type="button" class="btn btn-primary r-btn" onclick="window.location.href='/show';"><span class="glyphicon glyphicon-home"/>  Home</paper-button>
-            <form style="float:right" class="navbar-form" role="search" method = "POST" action = "{{ url_for('search') }}">
-          <div class="input-group">
-            <input type="text" class="form-control" placeholder="Search" name="srch-term" id="srch-term">
-            <div class="input-group-btn">
-              <button class="btn btn-default" type="submit" ><span class="glyphicon glyphicon-search"></span></button>
-            </div>
-          </div>
-        </form>
-    </paper-toolbar>
-  </paper-header-panel>
+  <body>
+    <div class = "navbar-dubba">
+      <table>
+        <tr>
+          <td class = "title-new">
+            Request For Change.
+          </td>
+          <td width="27%"></td>
+          <td>      
+            <form class="navbar-form" role="search" method = "POST" action = "{{ url_for('search') }}">
+              <input type="text" class="form-control" placeholder="Search" name="srch-term" id="srch-term">
+              <button  class="btn btn-default" type="submit" ><span class="glyphicon glyphicon-search"></span></button>
+            </form>
+          </td>        
+          <td ><button type="button" class="btn btn-primary" onclick="window.location.href='/show';"><span class="glyphicon glyphicon-home"/>  Home</button></td>
+          <td width="10px"></td>
+          <td><button type="button" class="btn btn-primary" onclick="window.location.href='/change';"><span class="glyphicon glyphicon-pencil"/> WriteAPetition</button></td>
+          <td width="10px"></td>
+          <td><button type="button" class="btn btn-primary" onclick="window.location.href='/logout';"><span class="glyphicon glyphicon-log-out"/> SignOut</button>  </td>
+        </tr>
+        <tr>      
+          <td class = "subtitle-new">Don't wait for it to come to you. Demand it.</td>
+        </tr>
+      </table>
+    </div>
 
-  <paper-material class="post-container">
-      <div class="row post-title-section">
-        
-          <h1 class="post-title">{{ post.title }}</h1>
-          {% if post.subtitle %}
-          <h2 class="post-subtitle"> {{ post.subtitle }} </h2>
-          {% endif %}
-      
+    <div class = "panel-wala">
+    <div class="row">
+      <div class="page-header col-md-offset-3 col-md-6 text-center">      
+        <h1>{{ post.title }}</h1>
+        <hr>
+        {% if post.subtitle %}
+        <h2> {{ post.subtitle }} </h2>
+        {% endif %}
       </div>
-      <div class="row">
-        
-        <div class="post-content">
-          <p>{{ post.content }}</p>
-        </div>
+    </div>
+    <div class="row">
+      <div class="col-md-offset-3 col-md-6 text-center">
+        <p>{{ post.content }}</p><br><br>
+      </div>
 
-        <div class="">
+      <div class="col-md-offset-3 col-md-6 pull-left"
+      <p><b>{{ post.date.strftime('%Y-%m-%d') }} | {{ post.supporters.split()|length }} Supporters</p></b>
+      <div class = ""> 
+        <button type="button" class="btn btn-primary" onclick="window.location.href='/upvote/{{ post.id }}';"><span class="glyphicon glyphicon-arrow-up"/>  Support</button>
+      </div>
+      <hr>
+      {% if comments %}
+      <h3>Comments</h3>
+      {% for comment in comments %}
+      <div class = "comment-list">
+        <p>{{ comment.body }}</p>
+        <p>
+          <span style="font-size:12px; font-weight:600">{{ comment.user_id }} on {{ comment.date.strftime('%Y-%m-%d') }}</span>
+          <span style="display:block">{{ comment.content }}</span>
+        </p>
 
-          <p><button type="button" class="btn btn-primary" style="margin-right:20px;" onclick="window.location.href='/upvote/{{ post.id }}';"><span class="glyphicon glyphicon-arrow-up"/>  Support</button>{{ post.date.strftime('%Y-%m-%d') }} | {{ post.supporters.split()|length }} Supporters</p>
-    
-          {% if comments %}
-          <h3>Comments</h3>
-          {% for comment in comments %}
-          <div class = "comment-list">
-            <p>{{ comment.body }}</p>
-            <p>
-              <span style="font-size:12px; font-weight:600">{{ comment.user_id }} on {{ comment.date.strftime('%Y-%m-%d') }}</span>
-              <span style="display:block">{{ comment.content }}</span>
-            </p>
-            
-          </div>
-          {% endfor %}
-          {% endif %}
-        </div>
       </div>
-      <div class = "col-ms-6"> 
-        
-      </div>
-  
-      <div class="">
-        <h4>Leave a Comment:</h4>
-        <form role="form" method = "POST" action="{{ url_for('addcomment') }}">
-          <div class="form-group">
-            <textarea class="form-control" name="content" required = "True" rows="1"></textarea>
-            <input type="hidden" name="postid" value=" {{ post.id }}">
-            <button type="submit" name="btn" class="btn btn-primary">Submit</button>
-          </div>
-        </form>
-      </div>
+      {% endfor %}
+      {% endif %}
+    </p>
+  </div>
+</div>
+
+<div class="well col-md-offset-3 col-md-6 pull-left">
+  <h4>Leave a Comment:</h4>
+  <form role="form" method = "POST" action="{{ url_for('addcomment') }}">
+    <div class="form-group">
+      <textarea class="form-control" name="content" required = "True" rows="1"></textarea>
+    </div>
+    <input type="hidden" name="postid" value=" {{ post.id }}">
+    <button type="submit" name="btn" class="btn btn-primary">Submit</button>
+  </form>
+</div>
+</div>
 <!-- /.container -->
 
-</paper-material>
-  <!-- jQuery Version 1.11.1 -->
-  <script src="{{ url_for('static', filename='js/jquery.js') }}"></script>
+<!-- jQuery Version 1.11.1 -->
+<script src="{{ url_for('static', filename='js/jquery.js') }}"></script>
 
-  <!-- Bootstrap Core JavaScript -->
-  <script src="{{ url_for('static', filename='js/bootstrap.min.js') }}"></script>
+<!-- Bootstrap Core JavaScript -->
+<script src="{{ url_for('static', filename='js/bootstrap.min.js') }}"></script>
 
 </body>
 
