@@ -1,140 +1,66 @@
-    <!DOCTYPE html>
-    <html lang="en">
+<!DOCTYPE html>
+<html lang="en">
 
-    <head>
+<head>
 
-      <meta charset="utf-8">
-      <meta http-equiv="X-UA-Compatible" content="IE=edge">
-      <meta name="viewport" content="width=device-width, initial-scale=1">
-      <meta name="description" content="">
-      <meta name="author" content="">
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="">
+  <meta name="author" content="">
 
-      <title>Change: {{post.title}}</title>
-      <!-- Bootstrap Core CSS -->
-      <link href="{{ url_for('static', filename = 'css/bootstrap.min.css') }}" rel="stylesheet">
+  <title>Change: {{post.title}}</title>
+  <!-- Bootstrap Core CSS -->
+  <link href="{{ url_for('static', filename = 'css/bootstrap.min.css') }}" rel="stylesheet">
 
-      <!-- Custom CSS -->
-      <style>
-        body {
-          padding-top: 50px;
-          /* Required padding for .navbar-fixed-top. Remove if using .navbar-static-top. Change if height of navigation changes. */
-        }
-      </style>
+  <link href="{{ url_for('static', filename = 'css/custom-css-showpost.css') }}" rel = "stylesheet">
 
-      <style>
-        body {
-          padding-top: 0px;
-          background: #F8F6F6;
+  <link href="{{ url_for('static', filename = 'fonts/font-roboto/roboto.html') }}" rel="import">
 
-          /* Required padding for .navbar-fixed-top. Remove if using .navbar-static-top. Change if height of navigation changes. */
-        }
-        div.divclass{
-          position:relative;
-          display: inline;
-          padding: 8px;
-          float: right;
-        }
-        div.formwala{
-         float: left; 
-         padding: 7px;
-       }
-       div.filters{
-        float:right;
-        background-color: white;
-        padding: 15px;
-        padding-left: 30px;
-        padding-right: 30px;
-        margin-right: 10%;
-        border: 1px solid rgba(0,0,0,0.1);
-        margin-top: 2%;
-        border-radius: 10px;
-      }
-      div.navbar-dubba{
-        height: 100px;
-        box-shadow: 0px 8px 5px gray;
-      }
-      .title-new{
-        font-size: 30px;
-        margin-top: 5px;
-        font-weight: bold;
-        padding: 10px;
-      }
-      .subtitle-new{
-        font-size: 15px;
-        margin-top: 0px;
-        padding-left: 10px;
-      }
-      .list-filters{
-        list-style-type: none;
-        margin-left: -30px;
-      }
-      .requests-list{
-        width: 50%;
-        margin-bottom: 20px;
-        margin-left: 10%;
-        margin-top: 2%;
-        background-color: #fdfdfd;
-        border-radius: 10px;
-        border: 1px solid rgba(0,0,0,0.1);
-        -webkit-box-shadow: 0 1px 1px rgba(0, 0, 0, .05);
-        box-shadow: 0 1px 1px rgba(0, 0, 0, .05);
-      }
-      .trwala{
-        width: 100%;
-      }
-      .comment-list{
-        background: white;
-        border-radius: 5px;
-        padding: 2px 10px;
-        margin: 5px 0;
-        border: 1px solid #ddf;
-      }
-      
-    </style>  
-  </head>
+</head>
 
-  <body>
-    <div class = "navbar-dubba">
-      <table>
-        <tr>
-          <td class = "title-new">
-            Request For Change.
-          </td>
-          <td width="27%"></td>
-          <td>      
-            <form class="navbar-form" role="search" method = "POST" action = "{{ url_for('search') }}">
-              <input type="text" class="form-control" placeholder="Search" name="srch-term" id="srch-term">
-              <button  class="btn btn-default" type="submit" ><span class="glyphicon glyphicon-search"></span></button>
-            </form>
-          </td>        
-          <td ><button type="button" class="btn btn-primary" onclick="window.location.href='/show';"><span class="glyphicon glyphicon-home"/>  Home</button></td>
-          <td width="10px"></td>
-          <td><button type="button" class="btn btn-primary" onclick="window.location.href='/change';"><span class="glyphicon glyphicon-pencil"/> WriteAPetition</button></td>
-          <td width="10px"></td>
-          <td><button type="button" class="btn btn-primary" onclick="window.location.href='/logout';"><span class="glyphicon glyphicon-log-out"/> SignOut</button>  </td>
-        </tr>
-        <tr>      
-          <td class = "subtitle-new">Don't wait for it to come to you. Demand it.</td>
-        </tr>
-      </table>
+<body>
+  <nav class = "navbar">
+    <table>
+      <tr>
+        <td class = "navbar-title">
+          <p> Request For Change.</p>
+        </td>
+        <td width="30%"></td>
+        <td ><a class="navbar-element" onclick="window.location.href='/show';">  Home  </a>
+        </td>
+        <td width="10px"></td>
+        <td><a class="navbar-element" onclick="window.location.href='/change';">  WriteAPetition  </a>
+        </td>
+        <td width="10px"></td>
+        <td><a class="navbar-element" onclick="window.location.href='/logout';">SignOut</a> 
+        </td>
+        <td>      
+          <form class="navbar-form" role="search" method = "POST" action = "{{ url_for('search') }}">
+            <input type="text" class="form-control" placeholder="Search" name="srch-term" id="srch-term">
+            <button  class="btn btn-default" type="submit" ><span class="glyphicon glyphicon-search"></span></button>
+          </form>
+        </td>        
+      </tr>
+      <tr>      
+        <td class = "navbar-subtitle">Don't wait for it to come to you. Demand it.</td>
+      </tr>
+    </table>
+  </nav>
+
+  <div class = "showpost-container">
+    <div class = "left">
     </div>
-
-    <div class = "panel-wala">
-    <div class="row">
-      <div class="page-header col-md-offset-3 col-md-6 text-center">      
+    <div class = "center">
+    <div class = "post-title">      
         <h1>{{ post.title }}</h1>
         <hr>
         {% if post.subtitle %}
         <h2> {{ post.subtitle }} </h2>
         {% endif %}
       </div>
-    </div>
-    <div class="row">
-      <div class="col-md-offset-3 col-md-6 text-center">
-        <p>{{ post.content }}</p><br><br>
-      </div>
+      <p>{{ post.content }}</p><br>
 
-      <div class="col-md-offset-3 col-md-6 pull-left"
       <p><b>{{ post.date.strftime('%Y-%m-%d') }} | {{ post.supporters.split()|length }} Supporters</p></b>
       <div class = ""> 
         <button type="button" class="btn btn-primary" onclick="window.location.href='/upvote/{{ post.id }}';"><span class="glyphicon glyphicon-arrow-up"/>  Support</button>
@@ -149,32 +75,29 @@
           <span style="font-size:12px; font-weight:600">{{ comment.user_id }} on {{ comment.date.strftime('%Y-%m-%d') }}</span>
           <span style="display:block">{{ comment.content }}</span>
         </p>
-
       </div>
       {% endfor %}
       {% endif %}
-    </p>
-  </div>
-</div>
 
-<div class="well col-md-offset-3 col-md-6 pull-left">
-  <h4>Leave a Comment:</h4>
-  <form role="form" method = "POST" action="{{ url_for('addcomment') }}">
-    <div class="form-group">
-      <textarea class="form-control" name="content" required = "True" rows="1"></textarea>
+      <div class = "add-comment">
+        <h4>Leave a Comment:</h4>
+        <form role="form" method = "POST" action="{{ url_for('addcomment') }}">
+          <div class="form-group">
+            <textarea class="form-control" name="content" required = "True" rows="1"></textarea>
+          </div>
+          <input type="hidden" name="postid" value=" {{ post.id }}">
+          <button type="submit" name="btn" class="btn btn-primary">Submit</button>
+        </form>
+      </div>  
     </div>
-    <input type="hidden" name="postid" value=" {{ post.id }}">
-    <button type="submit" name="btn" class="btn btn-primary">Submit</button>
-  </form>
-</div>
-</div>
-<!-- /.container -->
+    <div class = "right">
+    </div>
+  </div>
+  <!-- jQuery Version 1.11.1 -->
+  <script src="{{ url_for('static', filename='js/jquery.js') }}"></script>
 
-<!-- jQuery Version 1.11.1 -->
-<script src="{{ url_for('static', filename='js/jquery.js') }}"></script>
-
-<!-- Bootstrap Core JavaScript -->
-<script src="{{ url_for('static', filename='js/bootstrap.min.js') }}"></script>
+  <!-- Bootstrap Core JavaScript -->
+  <script src="{{ url_for('static', filename='js/bootstrap.min.js') }}"></script>
 
 </body>
 
